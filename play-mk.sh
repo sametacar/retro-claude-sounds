@@ -1,5 +1,5 @@
 #!/bin/bash
-# Plays a StarCraft sound based on event type
+# Plays a Mortal Kombat sound based on event type
 SOUNDS_DIR="$HOME/.claude/sounds/mortalkombatsounds"
 
 play() {

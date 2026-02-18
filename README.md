@@ -16,10 +16,10 @@ source ~/.zshrc
 ## Switch Themes
 
 ```bash
-sounds mk    # Mortal Kombat
-sounds sc    # StarCraft
-sounds wc    # Warcraft
-sounds ao2   # Age of Empires 2
+sounds-mk    # Mortal Kombat
+sounds-sc    # StarCraft
+sounds-wc    # Warcraft
+sounds-ao2   # Age of Empires 2
 ```
 
 > **Note:** Run `source ~/.zshrc` and `sounds <theme>` as separate commands. They cannot be combined on the same line.
