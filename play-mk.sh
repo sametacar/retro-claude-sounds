@@ -9,8 +9,8 @@ play() {
 case "$1" in
   stop)
     case $(( RANDOM % 2 )) in
-      2) play "impressive.mp3" ;;
-      3) play "superb.mp3" ;;
+      0) play "impressive.mp3" ;;
+      1) play "superb.mp3" ;;
     esac
     ;;
   sessionstart)
@@ -44,4 +44,3 @@ case "$1" in
     fi
     ;;
 esac
-i-can-t-build-there
