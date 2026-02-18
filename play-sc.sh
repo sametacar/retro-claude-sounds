@@ -43,4 +43,3 @@ case "$1" in
     fi
     ;;
 esac
-i-can-t-build-there
