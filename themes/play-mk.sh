@@ -19,6 +19,8 @@ case "$1" in
   sessionend)
     play "laughter.mp3"
     ;;
+  submit)
+    ;;
   question)
      case $(( RANDOM % 2 )) in
       0) play "fatality.mp3" ;;

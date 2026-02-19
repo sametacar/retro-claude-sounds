@@ -23,6 +23,8 @@ case "$1" in
   #     play "hazir.mp3"
   #   fi
   #  ;;
+  submit)
+    ;;
   question)
     play "emrin.mp3"
     ;;

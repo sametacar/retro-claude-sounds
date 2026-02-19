@@ -23,6 +23,8 @@ case "$1" in
   #    play "PeonYesAttack1.mp3"
   #  fi
   #  ;;
+  submit)
+    ;;
   question)
     play "PeonWhat2.mp3"
     ;;
