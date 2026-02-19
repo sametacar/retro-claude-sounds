@@ -12,6 +12,50 @@ chmod +x "$THEMES_DIR"/play-*.sh
 # Default theme: ao2
 ln -sf "$THEMES_DIR/play-ao2.sh" "$CLAUDE_DIR/play.sh"
 
+# Add hooks to settings.json
+SETTINGS_FILE="$CLAUDE_DIR/settings.json"
+if ! grep -q "play.sh" "$SETTINGS_FILE" 2>/dev/null; then
+  python3 -c "
+import json, os
+
+home = os.path.expanduser('~')
+settings_path = home + '/.claude/settings.json'
+
+try:
+    with open(settings_path) as f:
+        settings = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    settings = {}
+
+hooks = settings.setdefault('hooks', {})
+
+events = {
+    'SessionStart': 'sessionstart',
+    'Stop': 'stop',
+    'Notification': 'question',
+    'UserPromptSubmit': 'submit',
+    'SessionEnd': 'sessionend',
+}
+
+for event, arg in events.items():
+    if event not in hooks:
+        hooks[event] = []
+    hooks[event].append({
+        'hooks': [{
+            'type': 'command',
+            'command': home + '/.claude/play.sh ' + arg,
+            'async': True
+        }]
+    })
+
+with open(settings_path, 'w') as f:
+    json.dump(settings, f, indent=2)
+"
+  echo "Hooks added to settings.json."
+else
+  echo "Hooks already present in settings.json, skipping."
+fi
+
 # Add sounds aliases to .zshrc (if not already present)
 if ! grep -q "sounds-wc-full" "$HOME/.zshrc" 2>/dev/null; then
   cat >> "$HOME/.zshrc" << 'EOF'
