@@ -10,7 +10,7 @@ cp "$REPO_DIR/themes"/play-*.sh "$THEMES_DIR/"
 chmod +x "$THEMES_DIR"/play-*.sh
 
 # Default theme: ao2
-ln -sf "$THEMES_DIR/play-ao2.sh" "$CLAUDE_DIR/play.sh"
+ln -sf "$THEMES_DIR/play-ao2.sh" "$CLAUDE_DIR/play-retro-sounds.sh"
 
 # Add/update hooks in settings.json
 python3 -c "
@@ -18,7 +18,7 @@ import json, os
 
 home = os.path.expanduser('~')
 settings_path = home + '/.claude/settings.json'
-play_sh = home + '/.claude/play.sh'
+play_sh = home + '/.claude/play-retro-sounds.sh'
 
 try:
     with open(settings_path) as f:
@@ -37,11 +37,10 @@ events = {
 }
 
 for event, arg in events.items():
-    # Remove any existing play.sh hooks for this event
     existing = hooks.get(event, [])
     cleaned = [
         h for h in existing
-        if not any('play.sh' in hook.get('command', '') for hook in h.get('hooks', []))
+        if not any('play' in hook.get('command', '') for hook in h.get('hooks', []))
     ]
     # Add fresh hook
     cleaned.append({
@@ -66,14 +65,14 @@ fi
 cat >> "$HOME/.zshrc" << 'EOF'
 
 # BEGIN retro-claude-sounds
-alias sounds-wc="ln -sf $HOME/.claude/themes/play-wc.sh $HOME/.claude/play.sh && echo 'Theme: wc'"
-alias sounds-mk="ln -sf $HOME/.claude/themes/play-mk.sh $HOME/.claude/play.sh && echo 'Theme: mk'"
-alias sounds-sc="ln -sf $HOME/.claude/themes/play-sc.sh $HOME/.claude/play.sh && echo 'Theme: sc'"
-alias sounds-ao2="ln -sf $HOME/.claude/themes/play-ao2.sh $HOME/.claude/play.sh && echo 'Theme: ao2'"
-alias sounds-wc-full="ln -sf $HOME/.claude/themes/play-wc-full.sh $HOME/.claude/play.sh && echo 'Theme: wc-full'"
-alias sounds-mk-full="ln -sf $HOME/.claude/themes/play-mk-full.sh $HOME/.claude/play.sh && echo 'Theme: mk-full'"
-alias sounds-sc-full="ln -sf $HOME/.claude/themes/play-sc-full.sh $HOME/.claude/play.sh && echo 'Theme: sc-full'"
-alias sounds-ao2-full="ln -sf $HOME/.claude/themes/play-ao2-full.sh $HOME/.claude/play.sh && echo 'Theme: ao2-full'"
+alias sounds-wc="ln -sf $HOME/.claude/themes/play-wc.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: wc'"
+alias sounds-mk="ln -sf $HOME/.claude/themes/play-mk.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: mk'"
+alias sounds-sc="ln -sf $HOME/.claude/themes/play-sc.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: sc'"
+alias sounds-ao2="ln -sf $HOME/.claude/themes/play-ao2.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: ao2'"
+alias sounds-wc-full="ln -sf $HOME/.claude/themes/play-wc-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: wc-full'"
+alias sounds-mk-full="ln -sf $HOME/.claude/themes/play-mk-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: mk-full'"
+alias sounds-sc-full="ln -sf $HOME/.claude/themes/play-sc-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: sc-full'"
+alias sounds-ao2-full="ln -sf $HOME/.claude/themes/play-ao2-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: ao2-full'"
 # END retro-claude-sounds
 EOF
 echo "sounds-* aliases updated in .zshrc. Run 'source ~/.zshrc' to apply."
