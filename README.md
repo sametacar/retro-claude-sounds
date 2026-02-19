@@ -4,6 +4,8 @@
 
 Retro game sounds for Claude Code hooks. Plays nostalgic sound effects on tool calls, submits, and session events.
 
+![Retro game sounds preview](assets/image-retro-sounds-small.webp)
+
 ## Installation
 
 ```bash
@@ -11,6 +13,7 @@ git clone https://github.com/sametacar/retro-claude-sounds
 cd retro-claude-sounds
 ./install.sh
 source ~/.zshrc
+sounds-wc
 ```
 
 ## Available Themes
@@ -24,11 +27,13 @@ source ~/.zshrc
 
 ## Switch Themes
 
+Switch themes by running:
+
 ```bash
 sounds-mk    # Mortal Kombat
 sounds-sc    # StarCraft
 sounds-wc    # Warcraft
-sounds-ao2   # Age of Empires 2
+sounds-ao2   # Age of Empires 2 (Turkish only)
 ```
 
 Add `-full` to include submit sounds (plays on every message you send):
