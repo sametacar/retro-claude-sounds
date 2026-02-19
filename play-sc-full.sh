@@ -1,6 +1,6 @@
 #!/bin/bash
-# Plays a Mortal Kombat sound based on event type (no submit sounds — use play-mk-full.sh for that)
-SOUNDS_DIR="$HOME/.claude/sounds/mortalkombatsounds"
+# Plays a StarCraft sound based on event type (submit sounds included)
+SOUNDS_DIR="$HOME/.claude/sounds/starcraftsounds"
 
 play() {
   afplay "$SOUNDS_DIR/$1" &
@@ -8,22 +8,22 @@ play() {
 
 case "$1" in
   stop)
-    case $(( RANDOM % 2 )) in
-      0) play "impressive.mp3" ;;
-      1) play "superb.mp3" ;;
-    esac
+    play "job-s-finished.mp3"
     ;;
   sessionstart)
-    play "fight.mp3"
+    play "battle-cruiser-operational.mp3"
     ;;
   sessionend)
-    play "laughter.mp3"
+    play "i-m-gone.mp3"
+    ;;
+  submit)
+    case $(( RANDOM % 2 )) in
+      0) play "all-right.mp3" ;;
+      1) play "in-the-pipe-five-by-five.mp3" ;;
+    esac
     ;;
   question)
-     case $(( RANDOM % 2 )) in
-      0) play "fatality.mp3" ;;
-      1) play "finish-him.mp3" ;;
-    esac
+    play "i-can-t-build-there.mp3"
     ;;
   *)
     # rastgele çal

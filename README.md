@@ -13,6 +13,15 @@ cd retro-claude-sounds
 source ~/.zshrc
 ```
 
+## Available Themes
+
+| Theme | Game |
+|-------|------|
+| `ao2` | 🏰 Age of Empires 2 |
+| `sc`  | 🚀 StarCraft |
+| `wc`  | 🪓 Warcraft |
+| `mk`  | 🕺 Mortal Kombat |
+
 ## Switch Themes
 
 ```bash
@@ -22,18 +31,28 @@ sounds-wc    # Warcraft
 sounds-ao2   # Age of Empires 2
 ```
 
+Add `-full` to include submit sounds (plays on every message you send):
+
+```bash
+sounds-mk-full
+sounds-sc-full
+sounds-wc-full
+sounds-ao2-full
+```
+
 > **Note:** Run `source ~/.zshrc` and `sounds <theme>` as separate commands. They cannot be combined on the same line.
 
 ## How It Works
 
-`install.sh` copies files to `~/.claude/` and adds a `sounds()` function to `.zshrc`. Claude Code hooks trigger `play.sh` on the following events:
+`install.sh` copies files to `~/.claude/` and adds theme aliases to `.zshrc`. Claude Code hooks trigger `play.sh` on the following events:
 
 - `sessionstart` — when a session begins
 - `sessionend` — when a session ends
-- `submit` — when a message is sent
-- `stop` — when a tool call is stopped
+- `stop` — when Claude finishes a response
+- `question` — when Claude asks a question
+- `submit` — when a message is sent *(only in `-full` variants)*
 
 ## Requirements
 
-- macOS (`afplay` required)
+- macOS
 - Claude Code

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Plays a Mortal Kombat sound based on event type (no submit sounds — use play-mk-full.sh for that)
+# Plays a Mortal Kombat sound based on event type (submit sounds included)
 SOUNDS_DIR="$HOME/.claude/sounds/mortalkombatsounds"
 
 play() {
@@ -18,6 +18,13 @@ case "$1" in
     ;;
   sessionend)
     play "laughter.mp3"
+    ;;
+  submit)
+    case $(( RANDOM % 3 )) in
+      0) play "rayden-torpedo.mp3" ;;
+      1) play "scorpion-get-over-here.mp3" ;;
+      2) play "fight.mp3" ;;
+    esac
     ;;
   question)
      case $(( RANDOM % 2 )) in

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Plays an Age of Empires 2 villager sound based on event type (no submit sounds — use play-ao2-full.sh for that)
+# Plays an Age of Empires 2 villager sound based on event type (submit sounds included)
 SOUNDS_DIR="$HOME/.claude/sounds/ageofsounds"
 
 play() {
@@ -16,13 +16,14 @@ case "$1" in
   sessionend)
     play "oduncu.mp3"
     ;;
-  #pretool)
-  #  if (( RANDOM % 2 )); then
-  #    play "yaparim.mp3"
-  #  else
-  #     play "hazir.mp3"
-  #   fi
-  #  ;;
+  submit)
+    case $(( RANDOM % 4 )) in
+      0) play "yaparim.mp3" ;;
+      1) play "oduncu.mp3" ;;
+      2) play "usta.mp3" ;;
+      3) play "madenci.mp3" ;;
+    esac
+    ;;
   question)
     play "emrin.mp3"
     ;;

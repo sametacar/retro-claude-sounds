@@ -1,5 +1,5 @@
 #!/bin/bash
-# Plays a StarCraft sound based on event type
+# Plays a StarCraft sound based on event type (no submit sounds — use play-sc-full.sh for that)
 SOUNDS_DIR="$HOME/.claude/sounds/starcraftsounds"
 
 play() {
@@ -23,12 +23,6 @@ case "$1" in
   #    play "all-right.mp3"
   #  fi
   #  ;;
-  submit)
-    case $(( RANDOM % 2 )) in
-      0) play "all-right.mp3" ;;
-      1) play "in-the-pipe-five-by-five.mp3" ;;
-    esac
-    ;;
   question)
     play "i-can-t-build-there.mp3"
     ;;

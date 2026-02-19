@@ -1,6 +1,6 @@
 #!/bin/bash
-# Plays an Age of Empires 2 villager sound based on event type (no submit sounds — use play-ao2-full.sh for that)
-SOUNDS_DIR="$HOME/.claude/sounds/ageofsounds"
+# Plays a peon sound based on event type (submit sounds included)
+SOUNDS_DIR="$HOME/.claude/sounds/warcraftsounds"
 
 play() {
   afplay "$SOUNDS_DIR/$1" &
@@ -8,23 +8,23 @@ play() {
 
 case "$1" in
   stop)
-    play "yaparim.mp3"
+    play "PeonBuildingComplete1.mp3"
     ;;
   sessionstart)
-    play "hazir.mp3"
+    play "PeonReady1.mp3"
     ;;
   sessionend)
-    play "oduncu.mp3"
+    play "PeonPissed2.mp3"
     ;;
-  #pretool)
-  #  if (( RANDOM % 2 )); then
-  #    play "yaparim.mp3"
-  #  else
-  #     play "hazir.mp3"
-  #   fi
-  #  ;;
+  submit)
+    case $(( RANDOM % 3 )) in
+      0) play "PeonWhat2.mp3" ;;
+      1) play "PeonYesAttack3.mp3" ;;
+      2) play "PeonYes3.mp3" ;;
+    esac
+    ;;
   question)
-    play "emrin.mp3"
+    play "PeonWhat2.mp3"
     ;;
   *)
     # rastgele çal

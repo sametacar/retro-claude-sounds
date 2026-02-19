@@ -1,5 +1,5 @@
 #!/bin/bash
-# Plays a peon sound based on event type
+# Plays a peon sound based on event type (no submit sounds — use play-wc-full.sh for that)
 SOUNDS_DIR="$HOME/.claude/sounds/warcraftsounds"
 
 play() {
@@ -23,13 +23,6 @@ case "$1" in
   #    play "PeonYesAttack1.mp3"
   #  fi
   #  ;;
-  submit)
-    case $(( RANDOM % 3 )) in
-      0) play "PeonWhat2.mp3" ;;
-      1) play "PeonYesAttack3.mp3" ;;
-      2) play "PeonYes3.mp3" ;;
-    esac
-    ;;
   question)
     play "PeonWhat2.mp3"
     ;;
