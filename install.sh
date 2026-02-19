@@ -12,14 +12,13 @@ chmod +x "$THEMES_DIR"/play-*.sh
 # Default theme: ao2
 ln -sf "$THEMES_DIR/play-ao2.sh" "$CLAUDE_DIR/play.sh"
 
-# Add hooks to settings.json
-SETTINGS_FILE="$CLAUDE_DIR/settings.json"
-if ! grep -q "play.sh" "$SETTINGS_FILE" 2>/dev/null; then
-  python3 -c "
+# Add/update hooks in settings.json
+python3 -c "
 import json, os
 
 home = os.path.expanduser('~')
 settings_path = home + '/.claude/settings.json'
+play_sh = home + '/.claude/play.sh'
 
 try:
     with open(settings_path) as f:
@@ -38,23 +37,25 @@ events = {
 }
 
 for event, arg in events.items():
-    if event not in hooks:
-        hooks[event] = []
-    hooks[event].append({
+    # Remove any existing play.sh hooks for this event
+    existing = hooks.get(event, [])
+    cleaned = [
+        h for h in existing
+        if not any('play.sh' in hook.get('command', '') for hook in h.get('hooks', []))
+    ]
+    # Add fresh hook
+    cleaned.append({
         'hooks': [{
             'type': 'command',
-            'command': home + '/.claude/play.sh ' + arg,
-            'async': True
+            'command': play_sh + ' ' + arg
         }]
     })
+    hooks[event] = cleaned
 
 with open(settings_path, 'w') as f:
     json.dump(settings, f, indent=2)
 "
-  echo "Hooks added to settings.json."
-else
-  echo "Hooks already present in settings.json, skipping."
-fi
+echo "Hooks updated in settings.json."
 
 # Add sounds aliases to .zshrc (if not already present)
 if ! grep -q "sounds-wc-full" "$HOME/.zshrc" 2>/dev/null; then
