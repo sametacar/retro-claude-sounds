@@ -4,7 +4,7 @@ REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Copy files
 cp -r "$REPO_DIR/sounds" "$CLAUDE_DIR/"
-cp "$REPO_DIR"/play-*.sh "$CLAUDE_DIR/"
+cp "$REPO_DIR/themes"/play-*.sh "$CLAUDE_DIR/"
 chmod +x "$CLAUDE_DIR"/play-*.sh
 
 # Default theme: ao2
