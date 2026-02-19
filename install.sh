@@ -57,11 +57,15 @@ with open(settings_path, 'w') as f:
 "
 echo "Hooks updated in settings.json."
 
-# Add sounds aliases to .zshrc (if not already present)
-if ! grep -q "sounds-wc-full" "$HOME/.zshrc" 2>/dev/null; then
-  cat >> "$HOME/.zshrc" << 'EOF'
+# Update sounds aliases in .zshrc (remove old block, write fresh)
+if [ -f "$HOME/.zshrc" ]; then
+  # Remove existing block between markers (if any)
+  sed -i '' '/# BEGIN retro-claude-sounds/,/# END retro-claude-sounds/d' "$HOME/.zshrc"
+fi
 
-# Claude sound theme switcher
+cat >> "$HOME/.zshrc" << 'EOF'
+
+# BEGIN retro-claude-sounds
 alias sounds-wc="ln -sf $HOME/.claude/themes/play-wc.sh $HOME/.claude/play.sh && echo 'Theme: wc'"
 alias sounds-mk="ln -sf $HOME/.claude/themes/play-mk.sh $HOME/.claude/play.sh && echo 'Theme: mk'"
 alias sounds-sc="ln -sf $HOME/.claude/themes/play-sc.sh $HOME/.claude/play.sh && echo 'Theme: sc'"
@@ -70,8 +74,8 @@ alias sounds-wc-full="ln -sf $HOME/.claude/themes/play-wc-full.sh $HOME/.claude/
 alias sounds-mk-full="ln -sf $HOME/.claude/themes/play-mk-full.sh $HOME/.claude/play.sh && echo 'Theme: mk-full'"
 alias sounds-sc-full="ln -sf $HOME/.claude/themes/play-sc-full.sh $HOME/.claude/play.sh && echo 'Theme: sc-full'"
 alias sounds-ao2-full="ln -sf $HOME/.claude/themes/play-ao2-full.sh $HOME/.claude/play.sh && echo 'Theme: ao2-full'"
+# END retro-claude-sounds
 EOF
-  echo "sounds-* aliases added to .zshrc. Run 'source ~/.zshrc' to apply."
-fi
+echo "sounds-* aliases updated in .zshrc. Run 'source ~/.zshrc' to apply."
 
 echo "Done! Usage: sounds-ao2 / sounds-sc / sounds-wc / sounds-mk (+ -full variants for submit sounds)"
