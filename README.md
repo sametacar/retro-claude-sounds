@@ -13,7 +13,7 @@ git clone https://github.com/sametacar/retro-claude-sounds
 cd retro-claude-sounds
 ./install.sh
 source ~/.zshrc
-sounds-wc
+retro-claude-sounds
 ```
 
 ## Available Themes
@@ -27,7 +27,15 @@ sounds-wc
 
 ## Switch Themes
 
-Switch themes by running:
+Open the interactive menu to switch themes:
+
+```bash
+retro-claude-sounds
+```
+
+Use `↑↓` to navigate, `Enter` to select, `q` to quit. The active theme is highlighted.
+
+Alternatively, use aliases directly:
 
 ```bash
 sounds-mk    # Mortal Kombat
@@ -44,8 +52,6 @@ sounds-sc-full
 sounds-wc-full
 sounds-ao2-full
 ```
-
-> **Note:** Run `source ~/.zshrc` and `sounds <theme>` as separate commands. They cannot be combined on the same line.
 
 ## How It Works
 

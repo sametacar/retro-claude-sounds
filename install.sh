@@ -9,6 +9,10 @@ mkdir -p "$THEMES_DIR"
 cp "$REPO_DIR/themes"/play-*.sh "$THEMES_DIR/"
 chmod +x "$THEMES_DIR"/play-*.sh
 
+# Copy menu script
+cp "$REPO_DIR/retro-claude-sounds-menu.sh" "$CLAUDE_DIR/retro-claude-sounds-menu.sh"
+chmod +x "$CLAUDE_DIR/retro-claude-sounds-menu.sh"
+
 # Default theme: ao2
 ln -sf "$THEMES_DIR/play-ao2.sh" "$CLAUDE_DIR/play-retro-sounds.sh"
 
@@ -73,8 +77,9 @@ alias sounds-wc-full="ln -sf $HOME/.claude/themes/play-wc-full.sh $HOME/.claude/
 alias sounds-mk-full="ln -sf $HOME/.claude/themes/play-mk-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: mk-full'"
 alias sounds-sc-full="ln -sf $HOME/.claude/themes/play-sc-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: sc-full'"
 alias sounds-ao2-full="ln -sf $HOME/.claude/themes/play-ao2-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: ao2-full'"
+alias retro-claude-sounds="$HOME/.claude/retro-claude-sounds-menu.sh"
 # END retro-claude-sounds
 EOF
-echo "sounds-* aliases updated in .zshrc. Run 'source ~/.zshrc' to apply."
+echo "Aliases updated in .zshrc. Run 'source ~/.zshrc' to apply."
 
-echo "Done! Usage: sounds-ao2 / sounds-sc / sounds-wc / sounds-mk (+ -full variants for submit sounds)"
+echo "Done! Type 'retro-claude-sounds' for the interactive menu, or use sounds-ao2 / sounds-sc / sounds-wc / sounds-mk directly."
