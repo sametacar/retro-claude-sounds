@@ -35,6 +35,8 @@ retro-claude-sounds
 
 Use `↑↓` to navigate, `Enter` to select, `q` to quit. The active theme is highlighted.
 
+<img src="assets/image-retro-sounds-interactive.webp" width="439" alt="Interactive menu">
+
 Alternatively, use aliases directly:
 
 ```bash

@@ -3,7 +3,6 @@
 THEMES_DIR="$HOME/.claude/themes"
 ACTIVE_LINK="$HOME/.claude/play-retro-sounds.sh"
 
-# Theme list: "key|Display Name"
 THEMES=(
     "ao2|Age of Empires 2"
     "sc|StarCraft"
@@ -15,101 +14,109 @@ THEMES=(
     "mk-full|Mortal Kombat"
 )
 
-get_theme_key()  { echo "$1" | cut -d'|' -f1; }
-get_theme_name() { echo "$1" | cut -d'|' -f2; }
-
 get_current_theme() {
     if [ -L "$ACTIVE_LINK" ]; then
-        basename "$(readlink "$ACTIVE_LINK")" | sed 's/play-//' | sed 's/\.sh//'
+        local t
+        t=$(readlink "$ACTIVE_LINK")
+        t="${t##*/}"   # basename
+        t="${t#play-}" # remove play-
+        t="${t%.sh}"   # remove .sh
+        echo "$t"
     else
         echo "none"
     fi
 }
 
-restore_terminal() {
+OLD_STTY=$(stty -g)
+
+cleanup() {
     tput rmcup
     tput cnorm
+    stty "$OLD_STTY"
 }
 
-trap restore_terminal EXIT
+trap cleanup EXIT
 
 current=$(get_current_theme)
 selected=0
 count=${#THEMES[@]}
 
-# Find index of active theme
 for i in "${!THEMES[@]}"; do
-    key=$(get_theme_key "${THEMES[$i]}")
-    if [ "$key" = "$current" ]; then
+    if [ "${THEMES[$i]%%|*}" = "$current" ]; then
         selected=$i
         break
     fi
 done
 
 draw_menu() {
-    tput cup 0 0
-    tput ed
+    local buf="" i key name suffix line
 
-    printf "\033[1;36mretro-claude-sounds\033[0m\n"
-    printf "\033[2m%s\033[0m\n\n" "────────────────────────────────────────"
-    printf "  \033[2m↑↓\033[0m navigate   \033[2mEnter\033[0m select   \033[2mq\033[0m quit\n\n"
+    printf -v buf '%s' "$(tput cup 0 0)"
+    buf+=$'\033[1;36mretro-claude-sounds\033[0m\033[K\n'
+    buf+=$'\033[2m────────────────────────────────────────\033[0m\033[K\n'
+    buf+=$'\033[K\n'
+    buf+=$'  \033[2m↑↓\033[0m navigate   \033[2mEnter\033[0m select   \033[2mq\033[0m quit\033[K\n'
+    buf+=$'\033[K\n'
 
     for i in "${!THEMES[@]}"; do
-        key=$(get_theme_key "${THEMES[$i]}")
-        name=$(get_theme_name "${THEMES[$i]}")
-
-        # Append dim [full] tag for full variants
-        if [[ "$key" == *-full ]]; then
-            suffix="\033[2m [full]\033[0m"
-        else
-            suffix=""
-        fi
+        key="${THEMES[$i]%%|*}"
+        name="${THEMES[$i]#*|}"
+        [[ "$key" == *-full ]] && suffix=$'\033[2m [full]\033[0m' || suffix=""
 
         if [ "$i" -eq "$selected" ] && [ "$key" = "$current" ]; then
-            printf "  \033[1;32m> %-20s%b \033[2m[active]\033[0m\n" "$name" "$suffix"
+            printf -v line "  \033[1;32m> %-20s%b \033[2m[active]\033[0m\033[K\n" "$name" "$suffix"
         elif [ "$i" -eq "$selected" ]; then
-            printf "  \033[1;32m> %s%b\033[0m\n" "$name" "$suffix"
+            printf -v line "  \033[1;32m> %s%b\033[0m\033[K\n" "$name" "$suffix"
         elif [ "$key" = "$current" ]; then
-            printf "  \033[33m  %-20s%b \033[2m[active]\033[0m\n" "$name" "$suffix"
+            printf -v line "  \033[33m  %-20s%b \033[2m[active]\033[0m\033[K\n" "$name" "$suffix"
         else
-            printf "    %s%b\n" "$name" "$suffix"
+            printf -v line "    %s%b\033[K\n" "$name" "$suffix"
         fi
+        buf+="$line"
     done
+
+    printf '%s' "$buf"
 }
 
-# Switch to alternate screen, hide cursor
 tput smcup
 tput civis
 clear
+
+# Raw mode: block until 1 char arrives (min 1, no timeout)
+stty -echo -icanon min 1 time 0
 
 while true; do
     draw_menu
 
     IFS= read -r -s -n1 key
+
     if [[ "$key" == $'\x1b' ]]; then
-        IFS= read -r -s -n2 -t 0.1 key2
-        key="$key$key2"
+        # Switch to non-blocking with 0.1s timeout (stty time=1 = 1/10 sec)
+        stty min 0 time 1
+        IFS= read -r -s -n2 key2
+        stty min 1 time 0
+        key="${key}${key2}"
     fi
 
     case "$key" in
-        $'\x1b[A') # Up
+        $'\x1b[A')
             ((selected--))
             [ "$selected" -lt 0 ] && selected=$((count - 1))
             ;;
-        $'\x1b[B') # Down
+        $'\x1b[B')
             ((selected++))
             [ "$selected" -ge "$count" ] && selected=0
             ;;
-        '') # Enter
-            theme_key=$(get_theme_key "${THEMES[$selected]}")
+        $'\r'|$'\n'|'')
+            theme_key="${THEMES[$selected]%%|*}"
             ln -sf "$THEMES_DIR/play-$theme_key.sh" "$ACTIVE_LINK"
-            restore_terminal
+            cleanup
             trap - EXIT
             printf "\033[1;32m> Theme set: %s\033[0m\n" "$theme_key"
             exit 0
             ;;
         q|Q)
-            restore_terminal
+            cleanup
             trap - EXIT
             exit 0
             ;;
