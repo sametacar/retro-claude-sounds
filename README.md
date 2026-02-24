@@ -57,9 +57,9 @@ sounds-ao2-full
 
 ## Themed Spinner Verbs
 
-Each theme replaces Claude Code's default spinner verbs with game-themed phrases. When Claude is thinking, you'll see lines like *"Spawning zerglings"* or *"Casting bloodlust"* instead of the defaults.
+Each theme replaces Claude Code's default spinner verbs with game-themed phrases. When Claude is thinking, you'll see lines like *"Spawning zerglings"* or *"Summoning ogres"* instead of the defaults.
 
-<img src="assets/image-retro-sounds-spinning-verbs.webp" alt="Themed spinner verbs preview"> 
+<img src="assets/image-retro-sounds-spinning-verbs.webp" width="439" alt="Themed spinner verbs preview"> 
 
 ## How It Works
 
