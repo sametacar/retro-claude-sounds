@@ -9,9 +9,11 @@ mkdir -p "$THEMES_DIR"
 cp "$REPO_DIR/themes"/play-*.sh "$THEMES_DIR/"
 chmod +x "$THEMES_DIR"/play-*.sh
 
-# Copy menu script
+# Copy menu and spinning verbs scripts
 cp "$REPO_DIR/retro-claude-sounds-menu.sh" "$CLAUDE_DIR/retro-claude-sounds-menu.sh"
 chmod +x "$CLAUDE_DIR/retro-claude-sounds-menu.sh"
+cp "$REPO_DIR/retro-claude-sounds-spinning-verbs.sh" "$CLAUDE_DIR/retro-claude-sounds-spinning-verbs.sh"
+chmod +x "$CLAUDE_DIR/retro-claude-sounds-spinning-verbs.sh"
 
 # Default theme: ao2
 ln -sf "$THEMES_DIR/play-ao2.sh" "$CLAUDE_DIR/play-retro-sounds.sh"
@@ -69,14 +71,15 @@ fi
 cat >> "$HOME/.zshrc" << 'EOF'
 
 # BEGIN retro-claude-sounds
-alias sounds-wc="ln -sf $HOME/.claude/themes/play-wc.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: wc'"
-alias sounds-mk="ln -sf $HOME/.claude/themes/play-mk.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: mk'"
-alias sounds-sc="ln -sf $HOME/.claude/themes/play-sc.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: sc'"
-alias sounds-ao2="ln -sf $HOME/.claude/themes/play-ao2.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: ao2'"
-alias sounds-wc-full="ln -sf $HOME/.claude/themes/play-wc-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: wc-full'"
-alias sounds-mk-full="ln -sf $HOME/.claude/themes/play-mk-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: mk-full'"
-alias sounds-sc-full="ln -sf $HOME/.claude/themes/play-sc-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: sc-full'"
-alias sounds-ao2-full="ln -sf $HOME/.claude/themes/play-ao2-full.sh $HOME/.claude/play-retro-sounds.sh && echo 'Theme: ao2-full'"
+alias sounds-off="ln -sf $HOME/.claude/themes/play-none.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh none && echo 'Sounds: off'"
+alias sounds-wc="ln -sf $HOME/.claude/themes/play-wc.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh wc && echo 'Theme: wc'"
+alias sounds-mk="ln -sf $HOME/.claude/themes/play-mk.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh mk && echo 'Theme: mk'"
+alias sounds-sc="ln -sf $HOME/.claude/themes/play-sc.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh sc && echo 'Theme: sc'"
+alias sounds-ao2="ln -sf $HOME/.claude/themes/play-ao2.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh ao2 && echo 'Theme: ao2'"
+alias sounds-wc-full="ln -sf $HOME/.claude/themes/play-wc-full.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh wc-full && echo 'Theme: wc-full'"
+alias sounds-mk-full="ln -sf $HOME/.claude/themes/play-mk-full.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh mk-full && echo 'Theme: mk-full'"
+alias sounds-sc-full="ln -sf $HOME/.claude/themes/play-sc-full.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh sc-full && echo 'Theme: sc-full'"
+alias sounds-ao2-full="ln -sf $HOME/.claude/themes/play-ao2-full.sh $HOME/.claude/play-retro-sounds.sh && $HOME/.claude/retro-claude-sounds-spinning-verbs.sh ao2-full && echo 'Theme: ao2-full'"
 alias retro-claude-sounds="$HOME/.claude/retro-claude-sounds-menu.sh"
 # END retro-claude-sounds
 EOF

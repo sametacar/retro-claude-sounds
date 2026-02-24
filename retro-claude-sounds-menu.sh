@@ -4,6 +4,7 @@ THEMES_DIR="$HOME/.claude/themes"
 ACTIVE_LINK="$HOME/.claude/play-retro-sounds.sh"
 
 THEMES=(
+    "none|Disable sounds"
     "ao2|Age of Empires 2"
     "sc|StarCraft"
     "wc|Warcraft"
@@ -61,7 +62,13 @@ draw_menu() {
     for i in "${!THEMES[@]}"; do
         key="${THEMES[$i]%%|*}"
         name="${THEMES[$i]#*|}"
-        [[ "$key" == *-full ]] && suffix=$'\033[2m [full]\033[0m' || suffix=""
+        if [[ "$key" == "none" ]]; then
+            suffix=$'\033[2m [off]\033[0m'
+        elif [[ "$key" == *-full ]]; then
+            suffix=$'\033[2m [full]\033[0m'
+        else
+            suffix=""
+        fi
 
         if [ "$i" -eq "$selected" ] && [ "$key" = "$current" ]; then
             printf -v line "  \033[1;32m> %-20s%b \033[2m[active]\033[0m\033[K\n" "$name" "$suffix"
@@ -73,6 +80,9 @@ draw_menu() {
             printf -v line "    %s%b\033[K\n" "$name" "$suffix"
         fi
         buf+="$line"
+
+        # Separator after "Sounds Off"
+        [[ "$key" == "none" ]] && buf+=$'\033[2m  ────────────────────────\033[0m\033[K\n'
     done
 
     printf '%s' "$buf"
@@ -110,9 +120,14 @@ while true; do
         $'\r'|$'\n'|'')
             theme_key="${THEMES[$selected]%%|*}"
             ln -sf "$THEMES_DIR/play-$theme_key.sh" "$ACTIVE_LINK"
+            "$HOME/.claude/retro-claude-sounds-spinning-verbs.sh" "$theme_key"
             cleanup
             trap - EXIT
-            printf "\033[1;32m> Theme set: %s\033[0m\n" "$theme_key"
+            if [[ "$theme_key" == "none" ]]; then
+                printf "\033[1;33m> Sounds disabled\033[0m\n"
+            else
+                printf "\033[1;32m> Theme set: %s\033[0m\n" "$theme_key"
+            fi
             exit 0
             ;;
         q|Q)
