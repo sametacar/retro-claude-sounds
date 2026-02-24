@@ -55,6 +55,12 @@ sounds-wc-full
 sounds-ao2-full
 ```
 
+## Themed Spinner Verbs
+
+Each theme replaces Claude Code's default spinner verbs with game-themed phrases. When Claude is thinking, you'll see lines like *"Spawning zerglings"* or *"Casting bloodlust"* instead of the defaults.
+
+<img src="assets/image-retro-sounds-spinning-verbs.webp" alt="Themed spinner verbs preview"> 
+
 ## How It Works
 
 `install.sh` copies files to `~/.claude/` and adds theme aliases to `.zshrc`. Claude Code hooks trigger `play.sh` on the following events:
