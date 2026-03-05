@@ -1,5 +1,8 @@
 # retro-claude-sounds
 
+> **This project will not be actively developed unless there are critical issues.**
+> Development continues at [github.com/sametacar/claudefx](https://github.com/sametacar/claudefx).
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Retro game sounds for Claude Code hooks. Plays nostalgic sound effects on tool calls, submits, and session events.
